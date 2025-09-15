@@ -1,0 +1,81 @@
+--> Verilog Data Types
+
+Verilog is a hardware description language (HDL) used to model digital circuits. 
+Just like programming languages have data types (int, float, char), Verilog has data types to represent hardware signals and variables.
+
+🔹 1. Net Data Types
+a> Represent physical connections (wires) between components.
+b> Cannot hold a value by themselves (they only carry values driven by other sources).
+
+--> Common Net Types:
+a> wire → Used to connect different modules or gates.
+b> tri → Like wire but can have multiple drivers (used in buses).
+
+✅ Example:
+
+module and_gate(input a, b, output y);
+  wire temp;         // wire carries the result
+  assign temp = a & b; // AND operation                               
+  assign y = temp;     // output gets the value
+endmodule
+
+🔹 2. Register Data Types (reg)
+a> Don’t mean an actual hardware register always!
+b> They are storage elements that hold values until changed.
+c> Used inside always blocks.
+
+✅ Example:
+
+module counter(input clk, output reg [3:0] count);
+  always @(posedge clk) begin
+    count <= count + 1;  // reg stores count value
+  end
+endmodule
+
+
+🔹 3. Integer Data Types
+a> integer: 32-bit signed number.
+b> Used for loops, testbenches, counters.
+
+✅ Example:
+
+integer i;
+initial begin
+  for (i = 0; i < 5; i = i + 1) begin
+    $display("Iteration: %d", i);
+  end
+end
+
+🔹 4. Real Data Types
+
+a> real: Used to represent floating-point numbers.
+b> Mostly in testbenches, not synthesis.
+
+✅ Example:
+
+real pi = 3.14159;
+initial $display("Value of Pi = %f", pi);
+
+🔹 5. Time Data Type
+a> time: Special 64-bit integer used to store simulation time.
+
+✅ Example:
+
+time t;
+initial begin
+  #10;
+  t = $time;
+  $display("Current simulation time = %0t", t);
+end
+
+🔹 6. Vectors (Bus Representation)
+a> Group of bits (like an array of wires or regs).
+b> Syntax: [MSB:LSB]
+
+✅ Example:
+
+reg [7:0] data;   // 8-bit register
+initial begin
+  data = 8'b10101010;  
+  $display("Data = %b", data);
+end
